@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Location and Weather Example</title>
+    //ai did styles 
+    <style>
+       
+        body {
+            font-family: 'Helvetica', Arial, sans-serif;
+            background-color: #f0f0f0; 
+            margin: 0;
+            display: flex; 
+            justify-content: center;
+            align-items: center;
+            height: 100vh; 
+        }
+
+       
+        .weather-container {
+            background-color: white; 
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+            text-align: center;
+            max-width: 400px; 
+            width: 100%;
+        }
+
+       
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+     
+        p {
+            font-size: 18px;
+            margin: 10px 0;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="weather-container">
+    <h1>Find Your Location and Weather</h1>
+    <p id="location"></p>
+    <p id="weather"></p>
+    </div>
+
+    <script>
+        const apiKey = '5121250deff643906f6d087fef19e559'; 
+
+        function getLocation() {
+            const locationElement = document.getElementById('location');
+            const weatherElement = document.getElementById('weather');
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(position => {
+                    const latitude = position.coords.latitude;
+                    const longitude = position.coords.longitude;
+
+                    locationElement.textContent = `Latitude: ${latitude}, Longitude: ${longitude}`;
+
+                    getWeather(latitude, longitude);
+                }, showError);
+            } else {
+                locationElement.textContent = "Geolocation is not supported by this browser.";
+            }
+        }
+
+        function getWeather(latitude, longitude) {
+            const weatherElement = document.getElementById('weather');
+            
+            const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=imperial`;
+
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    const temp = data.main.temp;
+                    const weatherDescription = data.weather[0].description;
+                    const city = data.name;
+
+                    weatherElement.textContent = `Current weather in ${city}: ${weatherDescription}, ${temp}°C`;
+                })
+                .catch(error => {
+                    weatherElement.textContent = "Unable to retrieve weather information.";
+                    console.error(error);
+                });
+        }
+        //error handling 
+       
+        function showError(error) {
+            switch (error.code) {
+                case error.PERMISSION_DENIED:
+                    document.getElementById('location').textContent = "User denied the request for Geolocation.";
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    document.getElementById('location').textContent = "Location information is unavailable.";
+                    break;
+                case error.TIMEOUT:
+                    document.getElementById('location').textContent = "The request to get user location timed out.";
+                    break;
+                case error.UNKNOWN_ERROR:
+                    document.getElementById('location').textContent = "An unknown error occurred.";
+                    break;
+            }
+        }
+
+        window.onload = function() {
+            getLocation();
+        };
+    </script>
+</body>
+</html>
