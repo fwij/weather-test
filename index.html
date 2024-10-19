@@ -60,8 +60,6 @@
                     const latitude = position.coords.latitude;
                     const longitude = position.coords.longitude;
 
-                    locationElement.textContent = `Latitude: ${latitude}, Longitude: ${longitude}`;
-
                     getWeather(latitude, longitude);
                 }, showError);
             } else {
@@ -80,7 +78,7 @@
                     const temp = data.main.temp;
                     const weatherDescription = data.weather[0].description;
 
-                    weatherElement.textContent = `${weatherDescription}, ${temp}°C`;
+                    weatherElement.textContent = `a${weatherDescription}, ${temp}°C`;
                 })
                 .catch(error => {
                     weatherElement.textContent = "Unable to retrieve weather information.";
