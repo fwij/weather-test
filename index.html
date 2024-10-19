@@ -78,7 +78,7 @@
                     const temp = data.main.temp;
                     const weatherDescription = data.weather[0].description;
 
-                    weatherElement.textContent = `a${weatherDescription}, ${temp}°C`;
+                    weatherElement.textContent = `${weatherDescription}, ${temp}°C`;
                 })
                 .catch(error => {
                     weatherElement.textContent = "Unable to retrieve weather information.";
