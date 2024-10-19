@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Location and Weather Example</title>
-  /* ai did styles */   
+    <title>User Location and Weather Example</title>  
     <style>
        
         body {
@@ -44,8 +43,7 @@
     </style>
 </head>
 <body>
-    <div class="weather-container">
-    <h1>Find Your Location and Weather</h1>
+    <div class="weather-container"
     <p id="location"></p>
     <p id="weather"></p>
     </div>
@@ -81,9 +79,8 @@
                 .then(data => {
                     const temp = data.main.temp;
                     const weatherDescription = data.weather[0].description;
-                    const city = data.name;
 
-                    weatherElement.textContent = `Current weather in ${city}: ${weatherDescription}, ${temp}°C`;
+                    weatherElement.textContent = `${weatherDescription}, ${temp}°C`;
                 })
                 .catch(error => {
                     weatherElement.textContent = "Unable to retrieve weather information.";
